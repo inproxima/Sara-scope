@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -8,6 +8,14 @@ import { deletePaper, listPapers, PaperListItem } from "@/src/lib/api";
 import { getToken } from "@/src/lib/auth";
 
 export default function PapersPage() {
+  return (
+    <Suspense fallback={<div className="hint loading-text">Loading papers…</div>}>
+      <PapersContent />
+    </Suspense>
+  );
+}
+
+function PapersContent() {
   const router = useRouter();
   const sp = useSearchParams();
 
