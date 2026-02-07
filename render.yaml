@@ -1,11 +1,10 @@
-services:
-  # PostgreSQL Database
-  - type: pg
-    name: sara-db
+databases:
+  - name: sara-db
     databaseName: sara
     user: sara
     plan: starter  # Change to 'standard' or 'pro' for production
 
+services:
   # FastAPI Backend
   - type: web
     name: sara-api
@@ -20,8 +19,6 @@ services:
         fromDatabase:
           name: sara-db
           property: connectionString
-        # Note: Render provides postgresql:// but we need postgresql+psycopg://
-        # This will be handled by the startup script
       - key: JWT_SECRET
         generateValue: true
       - key: PDF_STORAGE_DIR
