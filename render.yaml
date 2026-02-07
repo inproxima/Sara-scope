@@ -2,7 +2,7 @@ databases:
   - name: sara-db
     databaseName: sara
     user: sara
-    plan: starter  # Change to 'standard' or 'pro' for production
+    plan: basic  # Options: basic, standard, pro, etc.
 
 services:
   # FastAPI Backend
