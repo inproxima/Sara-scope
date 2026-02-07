@@ -44,7 +44,7 @@ services:
     runtime: node
     plan: starter  # Change to 'standard' or 'pro' for production
     region: oregon  # Should match API region
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm run start -- --port $PORT --hostname 0.0.0.0
     rootDir: apps/web
     envVars:
