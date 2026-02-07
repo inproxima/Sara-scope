@@ -1,0 +1,57 @@
+services:
+  # PostgreSQL Database
+  - type: pg
+    name: sara-db
+    databaseName: sara
+    user: sara
+    plan: starter  # Change to 'standard' or 'pro' for production
+
+  # FastAPI Backend
+  - type: web
+    name: sara-api
+    runtime: python
+    plan: starter  # Change to 'standard' or 'pro' for production
+    region: oregon  # Change to your preferred region
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash start.sh
+    rootDir: apps/api
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: sara-db
+          property: connectionString
+        # Note: Render provides postgresql:// but we need postgresql+psycopg://
+        # This will be handled by the startup script
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PDF_STORAGE_DIR
+        value: /data/pdfs
+      - key: CORS_ORIGINS
+        sync: false  # Set this manually after web service is created
+      - key: INVITE_EMAILS
+        sync: false  # Set this manually
+      - key: INVITE_CODE
+        sync: false  # Optional
+      - key: CROSSREF_MAILTO
+        sync: false  # Optional
+      - key: CLARIVATE_API_KEY
+        sync: false  # Optional
+    disk:
+      name: sara-pdf-storage
+      mountPath: /data/pdfs
+      sizeGB: 10  # Adjust based on your needs
+
+  # Next.js Frontend
+  - type: web
+    name: sara-web
+    runtime: node
+    plan: starter  # Change to 'standard' or 'pro' for production
+    region: oregon  # Should match API region
+    buildCommand: npm install && npm run build
+    startCommand: npm run start -- --port $PORT --hostname 0.0.0.0
+    rootDir: apps/web
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_BASE_URL
+        sync: false  # Set this to your API service URL after deployment
