@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-sara}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sara}
+      POSTGRES_DB: ${POSTGRES_DB:-sara}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  api:
+    build:
+      context: ../apps/api
+    command: >
+      sh -c "python -m alembic upgrade head &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    environment:
+      DATABASE_URL: "postgresql+psycopg://${POSTGRES_USER:-sara}:${POSTGRES_PASSWORD:-sara}@db:5432/${POSTGRES_DB:-sara}"
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      PDF_STORAGE_DIR: /data/pdfs
+      INVITE_EMAILS: ${INVITE_EMAILS:-you@example.com}
+      INVITE_CODE: ${INVITE_CODE:-}
+      CROSSREF_MAILTO: ${CROSSREF_MAILTO:-}
+      CLARIVATE_API_KEY: ${CLARIVATE_API_KEY:-}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - pdf_data:/data/pdfs
+
+  web:
+    build:
+      context: ../apps/web
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  db_data:
+  pdf_data:
+
