@@ -213,7 +213,7 @@ export default function PaperDetailPage() {
       </div>
 
       {/* ── Coding Form ── */}
-      <div className="card stack">
+      <div className="card stack" style={{ zIndex: 1 }}>
         <div className="section-header">
           <h3 style={{ margin: 0 }}>Code this paper</h3>
         </div>
