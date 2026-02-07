@@ -135,24 +135,24 @@ def upgrade() -> None:
             'qualitative_data',
             'mixed'
           )),
-          self_report_used_as_learning_proxy boolean,
+          self_report_used_as_learning_proxy boolean NOT NULL DEFAULT true,
           outcome_distance text CHECK (outcome_distance IN ('proximal','distal','unclear')),
 
-          effectiveness_claim_present boolean,
+          effectiveness_claim_present boolean NOT NULL DEFAULT true,
           claim_strength text CHECK (claim_strength IN ('descriptive','correlational','causal_language')),
           construct_learning_clarity text CHECK (construct_learning_clarity IN ('clear','partial','absent')),
           construct_engagement_clarity text CHECK (construct_engagement_clarity IN ('clear','partial','absent','not_applicable')),
-          construct_slippage_present boolean,
+          construct_slippage_present boolean NOT NULL DEFAULT true,
 
-          theory_present boolean,
+          theory_present boolean NOT NULL DEFAULT true,
           theory_named text,
           theory_function text CHECK (theory_function IN ('instrumental','interpretive','critical','unclear','not_applicable')),
 
-          teacher_labor_discussed boolean,
-          student_labor_discussed boolean,
-          institutional_constraints_discussed boolean,
-          data_infrastructure_discussed boolean,
-          power_equity_discussed boolean,
+          teacher_labor_discussed boolean NOT NULL DEFAULT true,
+          student_labor_discussed boolean NOT NULL DEFAULT true,
+          institutional_constraints_discussed boolean NOT NULL DEFAULT true,
+          data_infrastructure_discussed boolean NOT NULL DEFAULT true,
+          power_equity_discussed boolean NOT NULL DEFAULT true,
 
           coding_notes_20w text,
           coding_confidence text CHECK (coding_confidence IN ('high','medium','low')),

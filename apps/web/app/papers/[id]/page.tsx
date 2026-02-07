@@ -14,11 +14,17 @@ export default function PaperDetailPage() {
   const params = useParams<{ id: string }>();
   const id = params.id;
 
+  const buildDefaultCodeForm = () =>
+    ({
+      codebook_version: "v1",
+      ...Object.fromEntries(codebookV1.filter((f) => f.type === "boolean").map((f) => [f.key, true])),
+    }) as Record<string, any>;
+
   const [paper, setPaper] = useState<any | null>(null);
   const [codes, setCodes] = useState<any[]>([]);
   const [expandedCodes, setExpandedCodes] = useState<Record<string, boolean>>({});
   const [meta, setMeta] = useState<Record<string, any>>({});
-  const [codeForm, setCodeForm] = useState<Record<string, any>>({ codebook_version: "v1" });
+  const [codeForm, setCodeForm] = useState<Record<string, any>>(buildDefaultCodeForm);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -71,7 +77,7 @@ export default function PaperDetailPage() {
     setError(null);
     try {
       await createCode(id, codeForm);
-      setCodeForm({ codebook_version: "v1" });
+      setCodeForm(buildDefaultCodeForm());
       await refresh();
     } catch (e: any) {
       setError(e?.message || "Submit failed");
@@ -286,10 +292,10 @@ export default function PaperDetailPage() {
                 <label className="hint" style={{ display: "flex", gap: 10, alignItems: "center" }}>
                   <input
                     type="checkbox"
-                    checked={Boolean(codeForm[f.key] ?? false)}
+                    checked={Boolean(codeForm[f.key] ?? true)}
                     onChange={(e) => setCodeForm((p) => ({ ...p, [f.key]: e.target.checked }))}
                   />
-                  {codeForm[f.key] ? "Yes" : "No"}
+                  {Boolean(codeForm[f.key] ?? true) ? "Yes" : "No"}
                 </label>
               ) : f.type === "textarea" ? (
                 <textarea

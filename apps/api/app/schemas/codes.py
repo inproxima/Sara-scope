@@ -23,24 +23,24 @@ CodingConfidence = Literal["high", "medium", "low"]
 
 class CodeCreate(BaseModel):
     evidence_primary: Optional[EvidencePrimary] = None
-    self_report_used_as_learning_proxy: Optional[bool] = None
+    self_report_used_as_learning_proxy: bool = True
     outcome_distance: Optional[OutcomeDistance] = None
 
-    effectiveness_claim_present: Optional[bool] = None
+    effectiveness_claim_present: bool = True
     claim_strength: Optional[ClaimStrength] = None
     construct_learning_clarity: Optional[Clarity] = None
     construct_engagement_clarity: Optional[EngagementClarity] = None
-    construct_slippage_present: Optional[bool] = None
+    construct_slippage_present: bool = True
 
-    theory_present: Optional[bool] = None
+    theory_present: bool = True
     theory_named: Optional[str] = None
     theory_function: Optional[TheoryFunction] = None
 
-    teacher_labor_discussed: Optional[bool] = None
-    student_labor_discussed: Optional[bool] = None
-    institutional_constraints_discussed: Optional[bool] = None
-    data_infrastructure_discussed: Optional[bool] = None
-    power_equity_discussed: Optional[bool] = None
+    teacher_labor_discussed: bool = True
+    student_labor_discussed: bool = True
+    institutional_constraints_discussed: bool = True
+    data_infrastructure_discussed: bool = True
+    power_equity_discussed: bool = True
 
     coding_notes_20w: Optional[str] = Field(default=None, max_length=2000)
     coding_confidence: Optional[CodingConfidence] = None
