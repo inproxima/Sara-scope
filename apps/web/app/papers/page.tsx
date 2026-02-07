@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { deletePaper, listPapers, PaperListItem } from "@/src/lib/api";
@@ -76,9 +77,9 @@ export default function PapersPage() {
               Search and filter uploaded research articles.
             </div>
           </div>
-          <a className="btn btn-primary" href="/papers/upload">
+          <Link className="btn btn-primary" href="/papers/upload">
             Upload PDF
-          </a>
+          </Link>
         </div>
 
         <div className="row" style={{ marginTop: 8 }}>
@@ -148,9 +149,9 @@ export default function PapersPage() {
               {rows.map((r) => (
                 <tr key={r.id}>
                   <td>
-                    <a href={`/papers/${r.id}`} className="paper-title">
+                    <Link href={`/papers/${r.id}`} className="paper-title">
                       {r.title || "(untitled)"}
-                    </a>
+                    </Link>
                     <div className="hint" style={{ marginTop: 2 }}>
                       {r.authors || ""}
                     </div>
@@ -168,9 +169,9 @@ export default function PapersPage() {
                   </td>
                   <td>
                     <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-                      <a className="btn" href={`/papers/${r.id}`}>
+                      <Link className="btn" href={`/papers/${r.id}`}>
                         Edit
-                      </a>
+                      </Link>
                       <button
                         className="btn btnDanger"
                         onClick={() => onDelete(r.id)}

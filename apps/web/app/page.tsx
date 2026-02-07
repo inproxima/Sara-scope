@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function HomePage() {
   return (
     <div className="hero">
@@ -13,12 +15,12 @@ export default function HomePage() {
         structured diagnostic codebooks, and export analysis-ready datasets.
       </p>
       <div className="hero-actions">
-        <a className="btn btn-primary" href="/login">
+        <Link className="btn btn-primary" href="/login">
           Sign in
-        </a>
-        <a className="btn btn-ghost" href="/papers">
+        </Link>
+        <Link className="btn btn-ghost" href="/papers">
           Browse papers
-        </a>
+        </Link>
       </div>
     </div>
   );

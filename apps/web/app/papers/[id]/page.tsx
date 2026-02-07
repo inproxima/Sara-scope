@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 
 import { codebookV1, getCodebookDefinitionSet, getCodeDefinition } from "@/src/codebook/v1";
@@ -143,9 +144,9 @@ export default function PaperDetailPage() {
             <div className="hint" style={{ marginTop: 4 }}>{paper.authors || ""}</div>
           </div>
           <div style={{ display: "flex", gap: 10, alignItems: "center", flexShrink: 0 }}>
-            <a className="btn btn-ghost" href="/papers">
+            <Link className="btn btn-ghost" href="/papers">
               Back
-            </a>
+            </Link>
             {paper.pdf_available ? (
               <button className="btn" onClick={() => downloadPdf().catch((e) => setError(e.message))}>
                 Open PDF

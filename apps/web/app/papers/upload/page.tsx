@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
@@ -119,9 +120,9 @@ export default function UploadPage() {
             <button className="btn btn-primary" onClick={() => onUpload()} disabled={!file || busy}>
               {busy ? "Uploading..." : "Upload & extract"}
             </button>
-            <a className="btn btn-ghost" href="/papers">
+            <Link className="btn btn-ghost" href="/papers">
               Back
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -163,9 +164,9 @@ export default function UploadPage() {
             <button className="btn btn-primary" onClick={onSave} disabled={busy}>
               {busy ? "Saving..." : "Save"}
             </button>
-            <a className="btn btn-ghost" href={`/papers/${uploadResp.paper_id}`}>
+            <Link className="btn btn-ghost" href={`/papers/${uploadResp.paper_id}`}>
               Skip review
-            </a>
+            </Link>
           </div>
         </div>
       ) : null}

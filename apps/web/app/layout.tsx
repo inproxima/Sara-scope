@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { Newsreader, Karla, Inconsolata } from "next/font/google";
 
 import "./globals.css";
@@ -39,16 +40,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <div className="container">
           <header className="header">
-            <a href="/" className="brand">
+            <Link href="/" className="brand">
               sara<span className="brand-dot">-</span>scope
-            </a>
+            </Link>
             <nav className="nav">
-              <a href="/papers" className="nav-link">
+              <Link href="/papers" className="nav-link">
                 Papers
-              </a>
-              <a href="/export" className="nav-link">
+              </Link>
+              <Link href="/export" className="nav-link">
                 Export
-              </a>
+              </Link>
             </nav>
           </header>
           <main className="main">{children}</main>
