@@ -17,8 +17,25 @@ export default function PaperDetailPage() {
   const buildDefaultCodeForm = () =>
     ({
       codebook_version: "v1",
-      ...Object.fromEntries(codebookV1.filter((f) => f.type === "boolean").map((f) => [f.key, true])),
+      ...Object.fromEntries(codebookV1.map((f) => [f.key, f.type === "boolean" ? true : null])),
     }) as Record<string, any>;
+
+  const buildCodeFormFromLatest = (latestCode: Record<string, any> | null | undefined) => {
+    const defaults = buildDefaultCodeForm();
+    if (!latestCode) return defaults;
+
+    const next = { ...defaults };
+    if (typeof latestCode.codebook_version === "string" && latestCode.codebook_version) {
+      next.codebook_version = latestCode.codebook_version;
+    }
+
+    for (const field of codebookV1) {
+      if (latestCode[field.key] !== undefined) {
+        next[field.key] = latestCode[field.key];
+      }
+    }
+    return next;
+  };
 
   const [paper, setPaper] = useState<any | null>(null);
   const [codes, setCodes] = useState<any[]>([]);
@@ -37,6 +54,7 @@ export default function PaperDetailPage() {
     const c = await listCodes(id);
     setPaper(p);
     setCodes(c);
+    setCodeForm(buildCodeFormFromLatest(p.latest_code));
     setMeta({
       doi: p.doi || "",
       title: p.title || "",
